@@ -1,4 +1,5 @@
 import type { Route } from "./+types/home";
+import { Link } from "react-router";
 import Arrow from "../assets/icons/arrow.svg?react";
 import Check from "../assets/icons/check.svg?react";
 
@@ -11,7 +12,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <main className="p-8">
+    <div className="p-8">
       <section className="max-w-344 h-184 mx-auto flex flex-row">
         <div className="h-auto w-169.25 bg-red rounded-l-[30px]">
           <div className="mt-63 ml-24 text-white">
@@ -21,10 +22,13 @@ export default function Home() {
             <h3 className="text-3xl font-normal mt-7 tracking-tight">
               Find Babysitters Online for All Occasions
             </h3>
-            <button className="mt-16 bg-none h-15 w-57.5 border rounded-full flex justify-center items-center gap-4 group/item">
+            <Link
+              to={"/nannies"}
+              className="mt-16 bg-none h-15 w-57.5 border rounded-full flex justify-center items-center gap-4 group/item"
+            >
               Get started{" "}
               <Arrow className=" group-hover/item:transform group-hover/item:rotate-53 transition-all duration-300 ease-in-out" />
-            </button>
+            </Link>
           </div>
         </div>
         <div
@@ -44,6 +48,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
