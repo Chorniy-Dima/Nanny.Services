@@ -3,6 +3,8 @@ import { NavLink } from "react-router";
 import { useState } from "react";
 import { useLocation } from "react-router";
 import User from "../assets/icons/user.svg?react";
+import Login from "./Login";
+import Register from "./Register";
 
 const HeaderThemes = {
   home: {
@@ -18,7 +20,10 @@ const HeaderThemes = {
 };
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   const location = useLocation();
   const style = location.pathname === "/" ? "home" : "nannies";
@@ -61,14 +66,24 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex row gap-2 ml-auto">
-          <button className="w-31 h-12 rounded-full border border-white-40 cursor-pointer">
+          <button
+            className="w-31 h-12 rounded-full border border-white-40 cursor-pointer outline-none"
+            onClick={() => setIsLoginOpen(true)}
+          >
             Log In
           </button>
-          <button className="w-42 h-12 bg-red rounded-full cursor-pointer">
+          <button
+            className="w-42 h-12 bg-red rounded-full cursor-pointer outline-none"
+            onClick={() => {
+              setIsRegisterOpen(true);
+            }}
+          >
             Registration
           </button>
         </div>
       )}
+      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
+      {isRegisterOpen && <Register onClose={() => setIsRegisterOpen(false)} />}
     </header>
   );
 }
