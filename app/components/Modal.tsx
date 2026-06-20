@@ -18,23 +18,19 @@ export default function Modal({ onClose, children }: ModalProps) {
 
   useEffect(() => {
     setMounetd(true);
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
-
     document.body.style.overflow = "hidden";
-
     return () => {
       setMounetd(false);
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
   }, []);
-
   if (!mounted) return null;
 
   return createPortal(
