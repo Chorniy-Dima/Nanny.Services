@@ -9,9 +9,12 @@
   --color-pale-red: rgba(240, 63, 59, 0.2);
   --color-white: #fbfbfb;
   --color-white-40: rgba(251, 251, 251, 0.4);
+  --color-white-bg: #f3f3f3;
+  --color-grey: #8a8a89;
   --color-black: #11101c;
   --color-black-60: rgba(18, 20, 23, 0.6);
   --color-black-50: rgba(17, 16, 28, 0.5);
+  --color-black-20: rgba(17, 16, 28, 0.2);
   --color-black-10: rgba(17, 16, 28, 0.1);
   --color-blue: #0957c3;
   --color-pale-blue: rgba(9, 87, 195, 0.2);

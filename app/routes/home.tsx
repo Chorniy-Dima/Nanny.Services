@@ -6,7 +6,7 @@ import Check from "../assets/icons/check.svg?react";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Nanny.services" },
-    { name: "description", content: "Welcome to React Router!" },
+    { name: "home", content: "Welcome to home page" },
   ];
 }
 
