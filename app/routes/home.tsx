@@ -19,9 +19,11 @@ export default function Home() {
             <h1 className="text-4xl font-medium tracking-tight">
               Make Life Easier for the Family:
             </h1>
+
             <h3 className="text-3xl font-normal mt-7 tracking-tight">
               Find Babysitters Online for All Occasions
             </h3>
+
             <Link
               to={"/nannies"}
               className="mt-16 bg-none h-15 w-57.5 border rounded-full flex justify-center items-center gap-4 group/item"
@@ -31,6 +33,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
         <div
           className="h-auto w-174.75 rounded-r-[30px] 
         bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url(/app/assets/img/Baby-img-1x.jpg)] bg-cover bg-center relative"
