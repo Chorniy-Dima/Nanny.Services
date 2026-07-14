@@ -13,7 +13,7 @@ const options = [
 
 export const Filter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState("A to Z");
 
   const handleOpen = () => setIsOpen(!isOpen);
   const handleSelect = (option: string) => {
@@ -43,7 +43,7 @@ export const Filter = () => {
               return (
                 <li
                   key={item}
-                  className="text-lg leading-5 text-black-30 hover:text-black transition-all duration-150 ease-in-out cursor-pointer"
+                  className={`text-lg leading-5 hover:text-black transition-all duration-150 ease-in-out cursor-pointer ${selectedOption === item ? "text-black" : "text-black-30"}`}
                   onClick={() => handleSelect(item)}
                 >
                   {item}
