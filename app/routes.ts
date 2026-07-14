@@ -8,7 +8,7 @@ import {
 export default [
   layout("routes/layout.tsx", [
     index("routes/home.tsx"),
-    route("favourites", "routes/favourites.tsx"),
+    route("favorites", "routes/favorites.tsx"),
     route("nannies", "routes/nannies.tsx"),
   ]),
 ] satisfies RouteConfig;

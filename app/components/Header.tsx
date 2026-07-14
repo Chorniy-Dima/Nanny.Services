@@ -20,7 +20,7 @@ const HeaderThemes = {
 };
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -47,8 +47,8 @@ export default function Header() {
           Nannies
         </NavLink>
         {isLoggedIn && location.pathname !== "/" && (
-          <NavLink to={"/favourites"} className={getNavLinkClass}>
-            Favourites
+          <NavLink to={"/favorites"} className={getNavLinkClass}>
+            Favorites
           </NavLink>
         )}
       </nav>
