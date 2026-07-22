@@ -128,7 +128,7 @@ export const NannyCard = () => {
         </button>
         <button
           type="button"
-          className="w-55 h-12 justify-self-end bg-red text-white rounded-full flex justify-center items-center cursor-pointer"
+          className="w-55 h-12 justify-self-end bg-red text-white rounded-full flex justify-center items-center cursor-pointer outline-none"
           onClick={() => setIsModalOpen(true)}
         >
           Make an appointment
