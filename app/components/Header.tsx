@@ -20,7 +20,7 @@ const HeaderThemes = {
 };
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -60,7 +60,10 @@ export default function Header() {
             </div>
             <h6 className="">Username</h6>
           </div>
-          <button className="w-33.5 h-12 border border-white-40 rounded-full cursor-pointer">
+          <button
+            className="w-33.5 h-12 border border-white-40 rounded-full cursor-pointer"
+            onClick={() => setIsLoggedIn(false)}
+          >
             Log Out
           </button>
         </div>
@@ -68,7 +71,10 @@ export default function Header() {
         <div className="flex row gap-2 ml-auto">
           <button
             className="w-31 h-12 rounded-full border border-white-40 cursor-pointer outline-none"
-            onClick={() => setIsLoginOpen(true)}
+            onClick={() => {
+              setIsLoginOpen(true);
+              setIsLoggedIn(true);
+            }}
           >
             Log In
           </button>

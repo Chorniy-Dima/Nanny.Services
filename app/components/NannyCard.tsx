@@ -6,6 +6,7 @@ import Heart from "../assets/icons/heart.svg?react";
 import FilledHeart from "../assets/icons/filled-heart.svg?react";
 import { useState } from "react";
 import { Review } from "./Review";
+import { Appointment } from "./Appointment";
 
 const styles = {
   liStyle:
@@ -42,6 +43,8 @@ const reviews = [
 export const NannyCard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const handleExpand = () => setIsExpanded(!isExpanded);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <article className="max-w-296 min-h-79.5 bg-white rounded-3xl p-6 relative">
@@ -126,10 +129,12 @@ export const NannyCard = () => {
         <button
           type="button"
           className="w-55 h-12 justify-self-end bg-red text-white rounded-full flex justify-center items-center cursor-pointer"
+          onClick={() => setIsModalOpen(true)}
         >
           Make an appointment
         </button>
       </div>
+      {isModalOpen && <Appointment onClose={() => setIsModalOpen(false)} />}
     </article>
   );
 };

@@ -39,7 +39,7 @@ export default function Modal({ onClose, children }: ModalProps) {
       aria-modal="true"
       onClick={handleBackdropClick}
     >
-      <div className="w-141.5 min-h-97.5 bg-white rounded-[30px] p-16 relative shadow-xl">
+      <div className="w-141.5 min-h-97.5 max-h-190 overflow-y-auto no-scrollbar bg-white rounded-[30px] relative shadow-xl p-14">
         <button
           className="absolute top-5 right-5 cursor-pointer outline-none"
           onClick={onClose}

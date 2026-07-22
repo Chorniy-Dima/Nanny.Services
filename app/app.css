@@ -5,7 +5,7 @@
   --font-sans: "Inter", sans-serif;
 
   /* colors */
-  --color-red: #F03F3B;
+  --color-red: #f03f3b;
   --color-pale-red: rgba(240, 63, 59, 0.2);
   --color-white: #fbfbfb;
   --color-white-40: rgba(251, 251, 251, 0.4);
@@ -22,7 +22,7 @@
   --color-green: #103931;
   --color-pale-green: rgba(16, 57, 49, 0.2);
   --color-bright-green: #38cd3e;
-  --color-bright-yellow: #FFC531;
+  --color-bright-yellow: #ffc531;
 
   /* font sizes */
   --text-3xl: 28px;
@@ -32,5 +32,15 @@
 @layer base {
   input:-webkit-autofill {
     @apply autofill:shadow-[inset_0_0_0_1000px_#fbfbfb] autofill:text-black;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
