@@ -3,9 +3,12 @@ import { registerSchema } from "~/validation/registerSchema";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
+import { auth } from "~/lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 type RegisterProps = {
   onClose: () => void;
+  setLogged: () => void;
 };
 type IRegisterForm = {
   name: string;
@@ -13,7 +16,7 @@ type IRegisterForm = {
   password: string;
 };
 
-export default function Register({ onClose }: RegisterProps) {
+export default function Register({ onClose, setLogged }: RegisterProps) {
   const {
     register,
     handleSubmit,
@@ -22,9 +25,19 @@ export default function Register({ onClose }: RegisterProps) {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
-    console.log(data);
-    onClose();
+  const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+      console.log(result);
+      onClose();
+      setLogged();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

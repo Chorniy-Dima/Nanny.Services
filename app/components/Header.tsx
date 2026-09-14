@@ -89,7 +89,12 @@ export default function Header() {
         </div>
       )}
       {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
-      {isRegisterOpen && <Register onClose={() => setIsRegisterOpen(false)} />}
+      {isRegisterOpen && (
+        <Register
+          onClose={() => setIsRegisterOpen(false)}
+          setLogged={() => setIsLoggedIn(true)}
+        />
+      )}
     </header>
   );
 }
