@@ -5,10 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import type { Dispatch, SetStateAction } from "react";
 
 type RegisterProps = {
   onClose: () => void;
-  setLogged: () => void;
+  setUser: Dispatch<SetStateAction<string | null>>;
 };
 type IRegisterForm = {
   name: string;
@@ -16,7 +17,7 @@ type IRegisterForm = {
   password: string;
 };
 
-export default function Register({ onClose, setLogged }: RegisterProps) {
+export default function Register({ onClose, setUser }: RegisterProps) {
   const {
     register,
     handleSubmit,
@@ -27,14 +28,10 @@ export default function Register({ onClose, setLogged }: RegisterProps) {
 
   const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
     try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password,
-      );
-      console.log(result);
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      console.log("Account succesfully registrated");
       onClose();
-      setLogged();
+      setUser(data.name);
     } catch (error) {
       console.log(error);
     }

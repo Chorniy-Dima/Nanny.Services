@@ -5,6 +5,8 @@ import { useLocation } from "react-router";
 import User from "../assets/icons/user.svg?react";
 import Login from "./Login";
 import Register from "./Register";
+import { auth } from "~/lib/firebase";
+import { signOut } from "firebase/auth";
 
 const HeaderThemes = {
   home: {
@@ -20,7 +22,7 @@ const HeaderThemes = {
 };
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<string | null>(null);
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -32,6 +34,16 @@ export default function Header() {
     return isActive
       ? "relative after:content-['•'] after:absolute after:top-4 after:left-1/2 after:transform after:translate-x-[-50%]"
       : "";
+  };
+
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth);
+      console.log("Sucsessfully logged out");
+      setUser(null);
+    } catch (error) {
+      console.log(`Log out error: ${error}`);
+    }
   };
 
   return (
@@ -46,23 +58,23 @@ export default function Header() {
         <NavLink to={"/nannies"} className={getNavLinkClass}>
           Nannies
         </NavLink>
-        {isLoggedIn && location.pathname !== "/" && (
+        {user && location.pathname !== "/" && (
           <NavLink to={"/favorites"} className={getNavLinkClass}>
             Favorites
           </NavLink>
         )}
       </nav>
-      {isLoggedIn ? (
+      {user ? (
         <div className="flex row gap-6 ml-auto">
           <div className="flex row gap-3.5 items-center">
             <div className="h-10 w-10 rounded-[10px] bg-white flex justify-center items-center">
               <User />
             </div>
-            <h6 className="">Username</h6>
+            <h6 className="truncate max-w-15">{user}</h6>
           </div>
           <button
             className="w-33.5 h-12 border border-white-40 rounded-full cursor-pointer"
-            onClick={() => setIsLoggedIn(false)}
+            onClick={() => handleLogOut()}
           >
             Log Out
           </button>
@@ -73,7 +85,6 @@ export default function Header() {
             className="w-31 h-12 rounded-full border border-white-40 cursor-pointer outline-none"
             onClick={() => {
               setIsLoginOpen(true);
-              setIsLoggedIn(true);
             }}
           >
             Log In
@@ -90,10 +101,7 @@ export default function Header() {
       )}
       {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
       {isRegisterOpen && (
-        <Register
-          onClose={() => setIsRegisterOpen(false)}
-          setLogged={() => setIsLoggedIn(true)}
-        />
+        <Register onClose={() => setIsRegisterOpen(false)} setUser={setUser} />
       )}
     </header>
   );
