@@ -29,7 +29,7 @@ export default function Register({ onClose, setUser }: RegisterProps) {
   const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log("Account succesfully registrated");
+      console.log("Account successfully registrated");
       onClose();
       setUser(data.name);
     } catch (error) {

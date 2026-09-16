@@ -39,7 +39,7 @@ export default function Header() {
   const handleLogOut = async () => {
     try {
       await signOut(auth);
-      console.log("Sucsessfully logged out");
+      console.log("Successfully logged out");
       setUser(null);
     } catch (error) {
       console.log(`Log out error: ${error}`);
@@ -70,7 +70,7 @@ export default function Header() {
             <div className="h-10 w-10 rounded-[10px] bg-white flex justify-center items-center">
               <User />
             </div>
-            <h6 className="truncate max-w-15">{user}</h6>
+            <h6 className="truncate max-w-20">{user}</h6>
           </div>
           <button
             className="w-33.5 h-12 border border-white-40 rounded-full cursor-pointer"
@@ -99,7 +99,9 @@ export default function Header() {
           </button>
         </div>
       )}
-      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
+      {isLoginOpen && (
+        <Login onClose={() => setIsLoginOpen(false)} setUser={setUser} />
+      )}
       {isRegisterOpen && (
         <Register onClose={() => setIsRegisterOpen(false)} setUser={setUser} />
       )}

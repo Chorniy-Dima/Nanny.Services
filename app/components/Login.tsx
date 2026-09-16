@@ -3,16 +3,20 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema } from "~/validation/loginSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
+import { auth } from "~/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import type { Dispatch, SetStateAction } from "react";
 
 type LoginProps = {
   onClose: () => void;
+  setUser: Dispatch<SetStateAction<string | null>>;
 };
 type ILoginForm = {
   email: string;
   password: string;
 };
 
-export default function Login({ onClose }: LoginProps) {
+export default function Login({ onClose, setUser }: LoginProps) {
   const {
     register,
     handleSubmit,
@@ -21,9 +25,15 @@ export default function Login({ onClose }: LoginProps) {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
-    console.log(data);
-    onClose();
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      console.log("Successfully logged in");
+      setUser("temp. name");
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
