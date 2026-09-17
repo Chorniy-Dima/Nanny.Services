@@ -6,6 +6,8 @@ import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import type { Dispatch, SetStateAction } from "react";
+import { handleAuthError } from "~/utils/handleAuthError";
+import { Toaster } from "react-hot-toast";
 
 type LoginProps = {
   onClose: () => void;
@@ -32,7 +34,7 @@ export default function Login({ onClose, setUser }: LoginProps) {
       setUser("temp. name");
       onClose();
     } catch (error) {
-      console.log(error);
+      handleAuthError(error);
     }
   };
 
@@ -66,6 +68,7 @@ export default function Login({ onClose, setUser }: LoginProps) {
           >
             Log In
           </button>
+          <Toaster />
         </form>
       </div>
     </Modal>

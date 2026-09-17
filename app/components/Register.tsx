@@ -6,6 +6,8 @@ import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import type { Dispatch, SetStateAction } from "react";
+import { handleAuthError } from "~/utils/handleAuthError";
+import { Toaster } from "react-hot-toast";
 
 type RegisterProps = {
   onClose: () => void;
@@ -33,7 +35,7 @@ export default function Register({ onClose, setUser }: RegisterProps) {
       onClose();
       setUser(data.name);
     } catch (error) {
-      console.log(error);
+      handleAuthError(error);
     }
   };
 
@@ -77,6 +79,7 @@ export default function Register({ onClose, setUser }: RegisterProps) {
           >
             Sign Up
           </button>
+          <Toaster />
         </form>
       </div>
     </Modal>
