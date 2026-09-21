@@ -5,20 +5,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import type { Dispatch, SetStateAction } from "react";
 import { handleAuthError } from "~/utils/handleAuthError";
-import { Toaster } from "react-hot-toast";
 
 type LoginProps = {
   onClose: () => void;
-  setUser: Dispatch<SetStateAction<string | null>>;
 };
 type ILoginForm = {
   email: string;
   password: string;
 };
 
-export default function Login({ onClose, setUser }: LoginProps) {
+export default function Login({ onClose }: LoginProps) {
   const {
     register,
     handleSubmit,
@@ -30,8 +27,7 @@ export default function Login({ onClose, setUser }: LoginProps) {
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      console.log("Successfully logged in");
-      setUser("temp. name");
+
       onClose();
     } catch (error) {
       handleAuthError(error);
@@ -68,7 +64,6 @@ export default function Login({ onClose, setUser }: LoginProps) {
           >
             Log In
           </button>
-          <Toaster />
         </form>
       </div>
     </Modal>

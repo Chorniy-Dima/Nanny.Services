@@ -4,14 +4,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import type { Dispatch, SetStateAction } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { handleAuthError } from "~/utils/handleAuthError";
-import { Toaster } from "react-hot-toast";
 
 type RegisterProps = {
   onClose: () => void;
-  setUser: Dispatch<SetStateAction<string | null>>;
 };
 type IRegisterForm = {
   name: string;
@@ -19,7 +16,7 @@ type IRegisterForm = {
   password: string;
 };
 
-export default function Register({ onClose, setUser }: RegisterProps) {
+export default function Register({ onClose }: RegisterProps) {
   const {
     register,
     handleSubmit,
@@ -30,10 +27,15 @@ export default function Register({ onClose, setUser }: RegisterProps) {
 
   const onSubmit: SubmitHandler<IRegisterForm> = async (data) => {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log("Account successfully registrated");
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+
+      await updateProfile(user, { displayName: data.name });
+
       onClose();
-      setUser(data.name);
     } catch (error) {
       handleAuthError(error);
     }
@@ -79,7 +81,6 @@ export default function Register({ onClose, setUser }: RegisterProps) {
           >
             Sign Up
           </button>
-          <Toaster />
         </form>
       </div>
     </Modal>
