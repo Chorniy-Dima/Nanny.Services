@@ -1,5 +1,4 @@
-import { Link, NavLink, useLocation } from "react-router";
-import { useState } from "react";
+import { Link, NavLink, useLocation, useSearchParams } from "react-router";
 import UserIcon from "../assets/icons/user.svg?react";
 import Login from "./Login";
 import Register from "./Register";
@@ -25,8 +24,12 @@ const HeaderThemes = {
 export default function Header() {
   const { user } = useAuth();
 
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isLoginOpen = searchParams.get("auth") === "login";
+  const isRegisterOpen = searchParams.get("auth") === "register";
+  const closeModal = () => {
+    setSearchParams();
+  };
 
   const location = useLocation();
   const style = location.pathname === "/" ? "home" : "nannies";
@@ -83,7 +86,7 @@ export default function Header() {
           <button
             className="w-31 h-12 rounded-full border border-white-40 cursor-pointer outline-none"
             onClick={() => {
-              setIsLoginOpen(true);
+              setSearchParams("?auth=login");
             }}
           >
             Log In
@@ -91,15 +94,15 @@ export default function Header() {
           <button
             className="w-42 h-12 bg-red rounded-full cursor-pointer outline-none"
             onClick={() => {
-              setIsRegisterOpen(true);
+              setSearchParams("?auth=register");
             }}
           >
             Registration
           </button>
         </div>
       )}
-      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
-      {isRegisterOpen && <Register onClose={() => setIsRegisterOpen(false)} />}
+      {isLoginOpen && <Login onClose={closeModal} />}
+      {isRegisterOpen && <Register onClose={closeModal} />}
     </header>
   );
 }

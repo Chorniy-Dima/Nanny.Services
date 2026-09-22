@@ -6,6 +6,9 @@ import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { handleAuthError } from "~/utils/handleAuthError";
+import { useAuth } from "~/context/AuthContext";
+import { useSearchParams } from "react-router";
+import { useEffect } from "react";
 
 type RegisterProps = {
   onClose: () => void;
@@ -17,6 +20,18 @@ type IRegisterForm = {
 };
 
 export default function Register({ onClose }: RegisterProps) {
+  const { user, loading } = useAuth();
+  const [, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (user && !loading) {
+      setSearchParams((prev) => {
+        prev.delete("auth");
+        return prev;
+      });
+    }
+  }, [user, loading]);
+
   const {
     register,
     handleSubmit,
@@ -32,14 +47,15 @@ export default function Register({ onClose }: RegisterProps) {
         data.email,
         data.password,
       );
-
       await updateProfile(user, { displayName: data.name });
-
-      onClose();
     } catch (error) {
       handleAuthError(error);
     }
   };
+
+  if (user) {
+    return null;
+  }
 
   return (
     <Modal onClose={onClose}>

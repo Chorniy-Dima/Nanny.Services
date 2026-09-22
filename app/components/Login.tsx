@@ -6,6 +6,9 @@ import { Input } from "./Input";
 import { auth } from "~/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { handleAuthError } from "~/utils/handleAuthError";
+import { useSearchParams } from "react-router";
+import { useAuth } from "~/context/AuthContext";
+import { useEffect } from "react";
 
 type LoginProps = {
   onClose: () => void;
@@ -16,6 +19,18 @@ type ILoginForm = {
 };
 
 export default function Login({ onClose }: LoginProps) {
+  const { user, loading } = useAuth();
+  const [, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (user && !loading) {
+      setSearchParams((prev) => {
+        prev.delete("auth");
+        return prev;
+      });
+    }
+  }, [user, loading]);
+
   const {
     register,
     handleSubmit,
@@ -27,12 +42,14 @@ export default function Login({ onClose }: LoginProps) {
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      onClose();
     } catch (error) {
       handleAuthError(error);
     }
   };
+
+  if (user) {
+    return null;
+  }
 
   return (
     <Modal onClose={onClose}>
