@@ -1,4 +1,3 @@
-import avatar from "../assets/img/sample-img.jpg";
 import Clock from "../assets/icons/clock.svg?react";
 import { Input } from "./Input";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +6,7 @@ import { appointmentSchema } from "~/validation/appointmentSchema";
 import type { IAppointmentForm } from "~/validation/appointmentSchema";
 import Modal from "./Modal";
 import { useState } from "react";
+import type { Nanny } from "~/types/Nanny";
 
 const TIME_SLOTS = [
   "08 : 00",
@@ -38,9 +38,10 @@ const TIME_SLOTS = [
 
 type AppointmentProps = {
   onClose: () => void;
+  nanny: Nanny;
 };
 
-export const Appointment = ({ onClose }: AppointmentProps) => {
+export const Appointment = ({ onClose, nanny }: AppointmentProps) => {
   const {
     register,
     handleSubmit,
@@ -71,13 +72,13 @@ export const Appointment = ({ onClose }: AppointmentProps) => {
 
       <div className="flex flex-row gap-3.5 mt-3.5">
         <img
-          src={avatar}
+          src={nanny.avatar_url}
           alt="avatar"
           className="bg-pale-red w-10 h-10 rounded-xl"
         />
         <div className="flex flex-col gap-px">
           <span className="text-sm text-black-50">Your nanny</span>
-          <h3 className="font-medium">Anna Shevchenko</h3>
+          <h3 className="font-medium">{nanny.name}</h3>
         </div>
       </div>
 
