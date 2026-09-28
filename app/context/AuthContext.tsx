@@ -22,7 +22,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (loading) {
         setLoading(false);
       }
-      console.log("auth change:", firebaseUser);
     });
 
     return unsubscribe;
