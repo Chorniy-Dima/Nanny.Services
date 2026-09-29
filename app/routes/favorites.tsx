@@ -33,6 +33,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Favorites() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!loading && !user) {
       navigate("/?auth=login");
@@ -44,19 +45,17 @@ export default function Favorites() {
   }
 
   return (
-    <div className="py-16 px-32 bg-white-bg mx-auto">
-      <Filter />
+    <div className="py-16 px-32 bg-white-bg mx-auto min-h-171.75">
+      {/* <Filter /> */}
       <div className="w-full h-max flex flex-col gap-8">
-        <NannyCard />
-        <NannyCard />
-        <NannyCard />
+        <p className="flex self-center">There will be your favorite nannies</p>
       </div>
-      <button
+      {/* <button
         type="button"
         className="w-39.75 h-12 mt-16 bg-red text-white rounded-full flex justify-self-center justify-center items-center"
       >
         Load More
-      </button>
+      </button> */}
     </div>
   );
 }

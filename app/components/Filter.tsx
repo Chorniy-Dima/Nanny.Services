@@ -1,23 +1,25 @@
 import Chevron from "../assets/icons/chevron-down.svg?react";
 import { useState } from "react";
-
-const options = [
-  "A to Z",
-  "Z to A",
-  "Less than 10$",
-  "Greater than 10$",
-  "Popular",
-  "Not popular",
-  "Show all",
-];
+import { FILTER_OPTIONS, type FilterOption } from "~/constants";
+import { useSearchParams } from "react-router";
 
 export const Filter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("A to Z");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get("filter") || "a-z";
+
+  const activeOption = FILTER_OPTIONS.find((opt) => opt.id === currentFilter);
 
   const handleOpen = () => setIsOpen(!isOpen);
-  const handleSelect = (option: string) => {
-    setSelectedOption(option);
+  const handleSelect = (option: FilterOption) => {
+    setSearchParams((prev) => {
+      if (option?.id === "a-z") {
+        prev.delete("filter");
+      } else {
+        prev.set("filter", option.id);
+      }
+      return prev;
+    });
     handleOpen();
   };
 
@@ -31,7 +33,7 @@ export const Filter = () => {
           onClick={handleOpen}
           type="button"
         >
-          {selectedOption ? selectedOption : options[0]}
+          {activeOption?.label}
           <Chevron
             className={`transform transition-all duration-150 ease-in-out ${isOpen ? "rotate-180" : "rotate-0"}`}
           />
@@ -39,14 +41,14 @@ export const Filter = () => {
 
         {isOpen && (
           <ul className="w-56.5 h-61 bg-white py-3.5 px-4.5 flex flex-col gap-3 rounded-[14px] absolute z-20 shadow-[0_20px_69px_0_rgba(0,0,0,0.07)]">
-            {options.map((item) => {
+            {FILTER_OPTIONS.map((option) => {
               return (
                 <li
-                  key={item}
-                  className={`text-lg leading-5 hover:text-black transition-all duration-150 ease-in-out cursor-pointer ${selectedOption === item ? "text-black" : "text-black-30"}`}
-                  onClick={() => handleSelect(item)}
+                  key={option.id}
+                  className={`text-lg leading-5 hover:text-black transition-all duration-150 ease-in-out cursor-pointer ${activeOption?.label === option.label ? "text-black" : "text-black-30"}`}
+                  onClick={() => handleSelect(option)}
                 >
-                  {item}
+                  {option.label}
                 </li>
               );
             })}

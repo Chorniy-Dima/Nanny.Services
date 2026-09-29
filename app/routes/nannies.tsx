@@ -6,16 +6,15 @@ import {
   getDocs,
   collection,
   query,
-  where,
-  orderBy,
   limit,
   startAfter,
-  DocumentSnapshot,
   QueryDocumentSnapshot,
   type DocumentData,
 } from "firebase/firestore";
 import type { Nanny } from "~/types/Nanny";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FILTER_OPTIONS } from "~/constants";
+import { useSearchParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -26,9 +25,18 @@ export function meta({}: Route.MetaArgs) {
 
 const PAGE_SIZE = 3;
 
-export async function clientLoader() {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  const url = new URL(request.url);
+  const filterId = url.searchParams.get("filter") || "a-z";
+  const activeOption =
+    FILTER_OPTIONS.find((opt) => opt.id === filterId) || FILTER_OPTIONS[0];
+
   const nanniesRef = collection(db, "nannies");
-  const q = query(nanniesRef, limit(PAGE_SIZE + 1));
+  const q = query(
+    nanniesRef,
+    limit(PAGE_SIZE + 1),
+    ...activeOption?.getConstraints(),
+  );
 
   try {
     const snapshot = await getDocs(q);
@@ -58,6 +66,17 @@ export default function Nannies({ loaderData }: Route.ComponentProps) {
     useState<QueryDocumentSnapshot<DocumentData> | null>(loaderData.lastDoc);
   const [loading, setLoading] = useState(false);
 
+  const [searchParams] = useSearchParams();
+  const filterId = searchParams.get("filter");
+  const activeOption =
+    FILTER_OPTIONS.find((opt) => opt.id === filterId) || FILTER_OPTIONS[0];
+
+  useEffect(() => {
+    setNannies(loaderData.nannies);
+    setHasMore(loaderData.hasMore);
+    setLastDoc(loaderData.lastDoc);
+  }, [loaderData]);
+
   const handleLoadMore = async () => {
     if (!lastDoc) return;
 
@@ -67,6 +86,7 @@ export default function Nannies({ loaderData }: Route.ComponentProps) {
       const nanniesRef = collection(db, "nannies");
       const nextQuery = query(
         nanniesRef,
+        ...activeOption.getConstraints(),
         startAfter(lastDoc),
         limit(PAGE_SIZE + 1),
       );
@@ -95,7 +115,7 @@ export default function Nannies({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <div className="py-16 px-32 bg-white-bg mx-auto">
+    <div className="py-16 px-32 bg-white-bg mx-auto min-h-171.75">
       <Filter />
       <ul className="w-full h-max flex flex-col gap-8">
         {nannies.map((nanny) => (
