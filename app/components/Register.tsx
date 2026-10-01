@@ -3,12 +3,13 @@ import { registerSchema } from "~/validation/registerSchema";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "./Input";
-import { auth } from "~/lib/firebase";
+import { auth, db } from "~/lib/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { handleAuthError } from "~/utils/handleAuthError";
 import { useAuth } from "~/context/AuthContext";
 import { useSearchParams } from "react-router";
 import { useEffect } from "react";
+import { doc, setDoc } from "firebase/firestore";
 
 type RegisterProps = {
   onClose: () => void;
@@ -48,6 +49,12 @@ export default function Register({ onClose }: RegisterProps) {
         data.password,
       );
       await updateProfile(user, { displayName: data.name });
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        email: user.email,
+        favorites: [],
+      });
     } catch (error) {
       handleAuthError(error);
     }
@@ -93,7 +100,7 @@ export default function Register({ onClose }: RegisterProps) {
 
           <button
             type="submit"
-            className="h-13 w-full mt-5.5 bg-red text-white font-medium rounded-full flex justify-center items-center"
+            className="h-13 w-full mt-5.5 bg-red text-white font-medium rounded-full flex justify-center items-center cursor-pointer"
           >
             Sign Up
           </button>

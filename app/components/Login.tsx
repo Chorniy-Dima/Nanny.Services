@@ -77,7 +77,7 @@ export default function Login({ onClose }: LoginProps) {
           />
           <button
             type="submit"
-            className="h-13 w-full mt-5.5 bg-red text-white font-medium rounded-full flex justify-center items-center"
+            className="h-13 w-full mt-5.5 bg-red text-white font-medium rounded-full flex justify-center items-center cursor-pointer"
           >
             Log In
           </button>

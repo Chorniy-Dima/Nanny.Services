@@ -57,3 +57,5 @@ export const FILTER_OPTIONS: FilterOption[] = [
     ],
   },
 ];
+
+export const PAGE_SIZE = 3;

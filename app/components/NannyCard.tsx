@@ -8,6 +8,9 @@ import { Review } from "./Review";
 import { Appointment } from "./Appointment";
 import type { Nanny } from "~/types/Nanny";
 import { getAge } from "~/utils/getAge";
+import { useAuth } from "~/context/AuthContext";
+import { useSearchParams } from "react-router";
+import toast from "react-hot-toast";
 
 interface NannyCardProps {
   nanny: Nanny;
@@ -41,6 +44,25 @@ export const NannyCard = ({ nanny }: NannyCardProps) => {
     },
   ];
 
+  const [, setSearchParams] = useSearchParams();
+  const { toggleFavorite, isFavorite, user } = useAuth();
+  const favorite = isFavorite(nanny.id);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      setSearchParams((prev) => {
+        prev.set("auth", "login");
+        return prev;
+      });
+      toast.error("Please, login to add nanny to the favorites", {
+        className: "h-15",
+      });
+      return;
+    } else {
+      await toggleFavorite(nanny.id);
+    }
+  };
+
   return (
     <article className="max-w-296 min-h-79.5 bg-white rounded-3xl p-6 relative">
       <div className="absolute top-6 right-6 flex flex-row gap-10">
@@ -61,8 +83,12 @@ export const NannyCard = ({ nanny }: NannyCardProps) => {
           </p>
         </div>
 
-        <button aria-label="Add to favourites" className="cursor-pointer">
-          <Heart />
+        <button
+          aria-label="Add to favourites"
+          className="cursor-pointer"
+          onClick={handleFavorite}
+        >
+          {favorite ? <FilledHeart /> : <Heart />}
         </button>
       </div>
 

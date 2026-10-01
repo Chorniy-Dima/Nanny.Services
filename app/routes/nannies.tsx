@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import type { Nanny } from "~/types/Nanny";
 import { useEffect, useState } from "react";
-import { FILTER_OPTIONS } from "~/constants";
+import { FILTER_OPTIONS, PAGE_SIZE } from "~/constants";
 import { useSearchParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
@@ -22,8 +22,6 @@ export function meta({}: Route.MetaArgs) {
     { name: "nannies", constent: "Welcome to nannies page" },
   ];
 }
-
-const PAGE_SIZE = 3;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
