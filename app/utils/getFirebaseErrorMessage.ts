@@ -1,7 +1,7 @@
 import { FirebaseError } from "firebase/app";
 
 export const getFirebaseErrorMessage = (error: unknown) => {
-  if (import.meta.env.DEV) {
+  if (import.meta.env.VITE_DEV) {
     console.log(error);
   }
   if (error instanceof FirebaseError) {
