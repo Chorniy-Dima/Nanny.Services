@@ -1,87 +1,115 @@
-# Welcome to React Router!
+# Nanny.Services
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Nanny.Services is a modern web application designed for finding and booking professional nannies. The platform provides a catalog of qualified specialists with filtering options, a favorite list feature, user authentication, and an appointment booking system.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+Live Demo: [nanny-services-beryl.vercel.app](https://nanny-services-beryl.vercel.app/)
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- **User Authentication:** Sign up and log in via Email/Password powered by Firebase Auth.
+- **Nanny Catalog:** View detailed profiles including experience, ratings, pricing, and reviews.
+- **Filtering and Sorting:** Search nannies by alphabetical order, price, rating, or popularity.
+- **Favorites:** A dedicated page for saved profiles, accessible only to authenticated users.
+- **Booking System:** Modal window for scheduling appointments with real-time field validation.
+- **Protected Routes:** Restricts unauthorized access to private pages.
+
+## Tech Stack
+
+- **Framework / Library:** React, TypeScript
+- **Routing:** React Router v7
+- **Styling:** Tailwind CSS
+- **Backend & Database:** Firebase (Authentication, Realtime Database / Firestore)
+- **Form Management:** React Hook Form
+- **Validation:** Yup
+- **Build Tool:** Vite
+- **Containerization:** Docker
+- **Deployment:** Vercel
+
+## Project Structure
+
+```
+Nanny.Services/
+├── app/
+│   ├── assets/          # Static assets (images, icons)
+│   ├── components/      # Reusable UI components (modals, cards, buttons)
+│   ├── constants/       # Configuration constants and static data
+│   ├── context/         # React Context (authentication state, etc.)
+│   ├── lib/             # Third-party library configurations (Firebase SDK)
+│   ├── routes/          # Application pages and route components
+│   ├── types/           # TypeScript interfaces and type definitions
+│   ├── utils/           # Helper functions
+│   ├── validation/      # Yup validation schemas
+│   ├── app.css          # Global stylesheet
+│   ├── root.tsx         # Root component
+│   └── routes.ts        # Router configuration
+├── public/              # Public static files
+├── Dockerfile           # Docker configuration
+├── .env.example         # Environment variables template
+└── vite.config.ts       # Vite configuration
+```
 
 ## Getting Started
 
-### Installation
+Follow these steps to run the project locally.
 
-Install the dependencies:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/nanny-services.git
+cd nanny-services
+```
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Development
+### 3. Environment Setup
 
-Start the development server with HMR:
+Create a `.env` file in the root directory based on `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Populate the `.env` file with your credentials from the Firebase Console:
+
+```env
+VITE_FIREBASE_API_KEY=your-firebase-api-key
+VITE_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+VITE_FIREBASE_APP_ID=your-firebase-app-id
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The application will be running at `http://localhost:5173`.
 
-## Building for Production
+## Docker Setup
 
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+To run the application using Docker:
 
 ```bash
-docker build -t my-app .
+# Build the Docker image
+docker build -t nanny-services .
 
 # Run the container
-docker run -p 3000:3000 my-app
+docker run -p 3000:3000 nanny-services
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## Available Scripts
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+- `npm run dev` - Runs the app in development mode using Vite
+- `npm run build` - Builds the application for production
+- `npm run preview` - Previews the production build locally
 
-### DIY Deployment
+## License
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+This project is created for educational and portfolio presentation purposes.
